@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  bot:
+    container_name: taalbot
+    image: ${DOCKERHUB_USERNAME}/taalbot:${TAALBOT_VERSION}
+    environment:
+      TOKEN: ${DISCORD_BOT_TOKEN}

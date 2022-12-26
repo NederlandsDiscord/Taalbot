@@ -1,0 +1,55 @@
+name: Deploy Bot (main)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/taalbot:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - name: Run docker-compose on Remote Server
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ secrets.HOST_ADDRESS }}
+          USERNAME: ${{ secrets.HOST_USERNAME }}
+          KEY: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
+          PORT: ${{ secrets.HOST_SSH_PORT }}
+          SCRIPT: |
+            cd taalbot
+            git pull https://github.com/HenningBuhl/Taalbot.git
+            git checkout
+            
+            TAALBOT_VERSION=latest
+            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+            TOKEN=${{ secrets.TOKEN }}
+
+            docker-compose down
+            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/taalbot:latest
+            docker-compose up -d
