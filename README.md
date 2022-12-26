@@ -63,6 +63,8 @@ The main branch automatically deploys the actual, real bot. [merge allowed from 
   - [DONE] Run tests on dev branch
   - [DONE] Write GitHub Action that deploys with docker-compose
   - [TODO] Make bot run in docker
+- Documentation:
+  - [TODO] Document what is vulnerable to changes somewhere else! (e.g. user name used on the server)
 
 ## Contributing
 

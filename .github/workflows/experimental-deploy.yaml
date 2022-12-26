@@ -20,7 +20,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: nederlandsdiscord
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/taalbot:experimental
+          tags: nederlandsdiscord/taalbot:experimental
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -44,16 +44,15 @@ jobs:
           SCRIPT: |
             mkdir taalbot-deployment-experimental
             cd taalbot-deployment-experimental
-            git clone https://github.com/HenningBuhl/Taalbot.git
+            git clone https://github.com/NederlandsDiscord/Taalbot
             cd Taalbot
             git checkout experimental
             
             export TAALBOT_VERSION=experimental
-            export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
             export DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN_EXPERIMENTAL }}
 
             docker-compose down
-            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/taalbot:experimental
+            docker image rm nederlandsdiscord/taalbot:experimental
             docker-compose up -d
 
             cd ../..
