@@ -1,5 +1,5 @@
 # Build stage.
-FROM python:3.10-slim as builder
+FROM python:3.10 as builder
 
 # Create virtual environment.
 RUN python3 -m venv /opt/venv
