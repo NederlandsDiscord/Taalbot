@@ -14,7 +14,8 @@ Create two folders ("taalbot", "taalbot-experimental") in user dir on server
 Install git
 Install docker + docker-compose [+ add to usergroup "sudo usermod -aG docker USERNAME"]
 Setup private key (save in GitHub Secret "HOST_SSH_PRIVATE_KEY") [https://github.com/appleboy/ssh-action#setting-up-ssh-key] Look out for b@B (user@host:port [host=@host in putty]) and the ssh port (ssh://user@host:port)!
-Update libseccomp: https://askubuntu.com/questions/1263284/apt-update-throws-signature-error-in-ubuntu-20-04-container-on-arm
+Check if architecture is correct in docer build in GitHub action.
+Fix time.time() causing Permission Denied error (https://github.com/tiredofit/docker-traefik-cloudflare-companion/issues/52)
 
 ### Third-Party Setup
 
