@@ -1,5 +1,5 @@
 # Build stage.
-FROM python:3.10.6-slim as builder
+FROM python:3.10-slim as builder
 
 # Create virtual environment.
 RUN python3 -m venv /opt/venv
@@ -10,7 +10,7 @@ COPY requirements-prod.txt .
 RUN apt-get update && pip install -r requirements-prod.txt
 
 # Run stage.
-FROM python:3.10.6-slim
+FROM python:3.10-slim
 
 # Create unprivileged user.
 RUN addgroup --system taalbot && adduser --system --group taalbot
