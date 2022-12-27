@@ -9,7 +9,7 @@ on:
 jobs:
   sonarcloud:
 
-    name: asd
+    name: Anlysis
     runs-on: ubuntu-latest
 
     steps:
